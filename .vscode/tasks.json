@@ -1,0 +1,37 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "dev: start SWA (via nvm Node 20)",
+			"command": "/bin/bash",
+			"args": [
+				"-lc",
+				"source ~/.nvm/nvm.sh && nvm use 20 && npx -y @azure/static-web-apps-cli start ${workspaceFolder} --port 4281"
+			],
+			"problemMatcher": [],
+			"isBackground": true
+		},
+		{
+			"type": "shell",
+			"label": "dev: stop SWA (graceful)",
+			"command": "/bin/bash",
+			"args": [
+				"-c",
+				"pids=$(lsof -ti:4281 -sTCP:LISTEN 2>/dev/null || true); if [[ -n \"$pids\" ]]; then echo \"Stopping SWA: $pids\"; kill -TERM $pids 2>/dev/null || true; sleep 2; pids2=$(lsof -ti:4281 -sTCP:LISTEN 2>/dev/null || true); if [[ -n \"$pids2\" ]]; then echo \"Force killing remaining: $pids2\"; kill -KILL $pids2 2>/dev/null || true; fi; fi; echo 'Port freed.'"
+			],
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "dev: restart SWA (graceful, via nvm Node 20)",
+			"command": "/bin/bash",
+			"args": [
+				"-c",
+				"pids=$(lsof -ti:4281 -sTCP:LISTEN 2>/dev/null || true); if [[ -n \"$pids\" ]]; then echo \"Stopping SWA: $pids\"; kill -TERM $pids 2>/dev/null || true; sleep 2; fi; pids2=$(lsof -ti:4281 -sTCP:LISTEN 2>/dev/null || true); if [[ -n \"$pids2\" ]]; then echo \"Force killing remaining: $pids2\"; kill -KILL $pids2 2>/dev/null || true; fi; echo 'Restarting SWA...' && source ~/.nvm/nvm.sh && nvm use 20 && npx -y @azure/static-web-apps-cli start ${workspaceFolder} --port 4281"
+			],
+			"problemMatcher": [],
+			"isBackground": true
+		}
+	]
+}

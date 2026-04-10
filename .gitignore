@@ -1,0 +1,12 @@
+# Claude Code
+.claude/
+
+# Azure SWA CLI cache
+.swa/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code local settings
+.vscode/settings.json
